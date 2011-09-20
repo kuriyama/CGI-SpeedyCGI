@@ -92,8 +92,13 @@
  */
 
 #include "speedy.h"
+#include "apr_version.h"
 
 extern char **environ;
+
+#if APR_MAJOR_VERSION >= 1
+#define	apr_filename_of_pathname	apr_filepath_name_get
+#endif
 
 module AP_MODULE_DECLARE_DATA speedycgi_module;
 static request_rec *global_r;
@@ -340,9 +345,13 @@ static void discard_script_output(apr_bucket_brigade *bb)
     const char *buf;
     apr_size_t len;
     apr_status_t rv;
+#if APR_MAJOR_VERSION < 1
+    APR_BRIGADE_FOREACH(e, bb) {
+#else
     for (e = APR_BRIGADE_FIRST(bb);
         e != APR_BRIGADE_SENTINEL(bb);
         e  = APR_BUCKET_NEXT(e)) {
+#endif
 
         if (APR_BUCKET_IS_EOS(e)) {
             break;
@@ -468,9 +477,13 @@ static int cgi_handler(request_rec *r)
             return rv;
         }
 
+#if APR_MAJOR_VERSION < 1
+	APR_BRIGADE_FOREACH(bucket, bb) {
+#else
         for (bucket = APR_BRIGADE_FIRST(bb);
             bucket != APR_BRIGADE_SENTINEL(bb);
             bucket  = APR_BUCKET_NEXT(bucket)) {
+#endif
             const char *data;
             apr_size_t len;
 
