@@ -420,10 +420,7 @@ void speedy_opt_read_shbang(void) {
 	);
 
 	/* Put arg0 into perl_argv[0] */
-#if 0
-	/* kuriyama: arg0 is always empty string here.  Overwriting previous value seems meaningless. */
 	strlist_replace(&perl_argv, 0, arg0);
-#endif
 
 	/* Set our OptRec values based on the speedy opts */
 	process_speedy_opts(&speedy_opts, strlist_len(&speedy_opts));
