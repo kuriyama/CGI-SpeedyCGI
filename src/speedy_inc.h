@@ -41,7 +41,7 @@ typedef long long speedy_ino_t;
 #   define MAP_FAILED (-1)
 #endif
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 #define SPEEDY_INLINE __inline__
 #else
 #define SPEEDY_INLINE
