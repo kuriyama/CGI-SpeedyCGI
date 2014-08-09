@@ -123,11 +123,10 @@ static void just_die(const char *fmt, va_list ap) {
 	strcat(buf, strerror_r(errno, errbuf, sizeof(errbuf)));
 #else /* ! _GNU_SOURCE */
 	errsv = errno;
-	if (strerror_r(errsv, errbuf, sizeof(errbuf))
+	if (strerror_r(errsv, errbuf, sizeof(errbuf)))
 	    sprintf(buf + strlen(buf), "(errno = %d)", errsv);
 	else
 	    strcat(buf, errbuf);
-    }
 #endif
 #else /* ! HAS_STRERROR_R */
 	strcat(buf, strerror(errno));
