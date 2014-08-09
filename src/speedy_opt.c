@@ -460,8 +460,10 @@ char **speedy_opt_perl_argv(const char *script_name) {
     /* Append the script argv to the end of perl_argv */
     strlist_init(full_perl_argv);
     strlist_concat(full_perl_argv, &perl_argv);
-    if (script_name)
+    if (script_name) {
 	strlist_append(full_perl_argv, script_name);
+	strlist_append(full_perl_argv, "--");
+    }
     strlist_concat2(full_perl_argv,
 	speedy_opt_script_argv() + (script_name ? 1 : 0));
 
