@@ -41,8 +41,9 @@ typedef long long speedy_ino_t;
 #   define MAP_FAILED (-1)
 #endif
 
-#if defined(__GNUC__) && !defined(__clang__)
-#define SPEEDY_INLINE __inline__
+/* Workaround for linker error on Amazon Linux 2 with gcc 7.3.1: disable inlining */
+#ifdef __GNUC__
+#define SPEEDY_INLINE
 #else
 #define SPEEDY_INLINE
 #endif
